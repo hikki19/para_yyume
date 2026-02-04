@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Para Rebeca 💌</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+/* Reset e base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4, #a1c4fd);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Botões de navegação */
+.botao-continuar {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 28px;
+  background: linear-gradient(to right, #ff4d6d, #ff8fa3);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  display: none;
+  box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+  transition: all 0.3s ease;
+  z-index: 5;
+}
+
+.botao-continuar:hover {
+  transform: translateX(-50%) translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 77, 109, 0.6);
+}
+
+.botao-voltar {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #ff4d6d;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  display: none;
+  z-index: 5;
+  transition: all 0.3s ease;
+}
+
+.botao-voltar:hover {
+  background: white;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+/* ===== CORAÇÕES CAINDO ===== */
+.corações {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.coração {
+  position: absolute;
+  color: rgba(255, 77, 109, 0.5);
+  font-size: 22px;
+  animation: cair linear infinite;
+  filter: drop-shadow(0 0 3px rgba(255, 77, 109, 0.5));
+}
+
+@keyframes cair {
+  from { transform: translateY(-10vh) rotate(0deg); }
+  to { transform: translateY(110vh) rotate(360deg); }
+}
+
+/* ===== MEDIDOR DE AMOR ===== */
+.medir-amor {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  backdrop-filter: blur(3px);
+}
+
+.caixa-amor {
+  background: white;
+  padding: 35px;
+  border-radius: 25px;
+  text-align: center;
+  width: 320px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  animation: surgir 0.5s ease-out;
+}
+
+@keyframes surgir {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.coracao-click {
+  font-size: 70px;
+  cursor: pointer;
+  animation: pulsar 1s infinite;
+  transition: transform 0.2s;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.coracao-click:active {
+  transform: scale(1.3);
+}
+
+@keyframes pulsar {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+.barra {
+  width: 100%;
+  height: 22px;
+  background: #eee;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 20px;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.progresso {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ff4d6d, #ff8fa3, #ffccd5);
+  transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.progresso::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: brilho 2s infinite;
+}
+
+@keyframes brilho {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.percentual {
+  margin-top: 12px;
+  font-weight: bold;
+  color: #ff4d6d;
+  font-size: 24px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.caixa-amor p {
+  margin-top: 15px;
+  color: #666;
+  font-size: 14px;
+}
+
+/* ===== ENVELOPE ===== */
+.envelope-container {
+  position: relative;
+  z-index: 2;
+}
+
+.envelope {
+  width: 320px;
+  height: 220px;
+  background: linear-gradient(145deg, #ff4d6d, #ff6f91);
+  position: relative;
+  cursor: pointer;
+  border-radius: 15px;
+  overflow: hidden;
+  pointer-events: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  transition: transform 0.3s;
+}
+
+.envelope.liberado {
+  pointer-events: auto;
+}
+
+.envelope:hover:not(.aberto) {
+  transform: translateY(-5px);
+}
+
+/* TAMPA */
+.envelope::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-left: 160px solid transparent;
+  border-right: 160px solid transparent;
+  border-top: 110px solid #ff8fa3;
+  transform-origin: top;
+  transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: 1;
+}
+
+.envelope.aberto::before {
+  transform: rotateX(180deg);
+}
+
+/* TEXTO DA FRENTE */
+.texto-envelope {
+  position: relative;
+  z-index: 3;
+  color: white;
+  text-align: center;
+  padding-top: 90px;
+  font-size: 22px;
+  font-weight: bold;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: opacity 0.5s;
+}
+
+.envelope.aberto .texto-envelope {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* CARTA */
+.carta {
+  position: absolute;
+  bottom: -100%;
+  left: 10px;
+  width: 300px;
+  height: 170px;
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+  transition: bottom 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: 2;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  overflow-y: auto;
+}
+
+.envelope.aberto .carta {
+  bottom: 10px;
+}
+
+.carta h2 {
+  margin: 0 0 15px 0;
+  color: #ff4d6d;
+  text-align: center;
+  font-size: 24px;
+}
+
+.carta p {
+  font-size: 15px;
+  color: #444;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.assinatura {
+  margin-top: 15px;
+  text-align: right;
+  font-style: italic;
+  color: #666;
+  font-weight: bold;
+}
+
+/* ===== NOSSA FOTO ESPECIAL ===== */
+.foto-container {
+  width: 220px;
+  height: 220px;
+  margin: 20px auto;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  border: 6px solid white;
+  position: relative;
+  background: linear-gradient(135deg, #ffccd5, #ff8fa3);
+  transition: all 0.4s ease;
+}
+
+.foto-container:hover {
+  transform: scale(1.03);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+}
+
+.nossa-foto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.nossa-foto:hover {
+  transform: scale(1.05);
+}
+
+.legenda-foto {
+  text-align: center;
+  margin-top: 15px;
+  color: #ff4d6d;
+  font-style: italic;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 8px 15px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 20px;
+  display: inline-block;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.moldura-foto {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  border: 3px solid #ff4d6d;
+  border-radius: 18px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Efeito de brilho na foto */
+.foto-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ===== MENSAGENS EXTRAS ===== */
+.mensagens-extras {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(5px);
+}
+
+.mensagem-container {
+  background: white;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 25px;
+  padding: 35px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  animation: surgir 0.6s ease-out;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.mensagem-container::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #ff4d6d, #ff8fa3, #ffccd5, #ff4d6d);
+  border-radius: 27px;
+  z-index: -1;
+  background-size: 400% 400%;
+  animation: gradientBG 8s ease infinite;
+}
+
+.mensagem-container h2 {
+  color: #ff4d6d;
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 28px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.mensagem-container p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #444;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+/* ===== BOTÕES DE NAVEGAÇÃO ===== */
+.botoes-navegacao {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.botao-acoes {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+  font-size: 15px;
+}
+
+.botao-fechar {
+  background: #4CAF50;
+  color: white;
+}
+
+.botao-fechar:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 600px) {
+  .envelope {
+    width: 280px;
+    height: 190px;
+  }
+  
+  .envelope::before {
+    border-left: 140px solid transparent;
+    border-right: 140px solid transparent;
+    border-top: 95px solid #ff8fa3;
+  }
+  
+  .carta {
+    width: 260px;
+    height: 150px;
+  }
+  
+  .caixa-amor {
+    width: 280px;
+    padding: 25px;
+  }
+  
+  .foto-container {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .mensagem-container {
+    padding: 25px;
+    margin: 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- CORAÇÕES -->
+<div class="corações" id="coracoes"></div>
+
+<!-- MEDIDOR DE AMOR -->
+<div class="medir-amor" id="medidor">
+  <div class="caixa-amor">
+    <h2>Medidor de Amor 💗</h2>
+    <div class="coracao-click" id="coracaoClick">💗</div>
+    <div class="barra">
+      <div class="progresso" id="progresso"></div>
+    </div>
+    <div class="percentual" id="percentual">0%</div>
+    <p>Clique no coração até encher a barra! 💕</p>
+  </div>
+</div>
+
+<!-- ENVELOPE -->
+<div class="envelope-container">
+  <div class="envelope" id="envelope" onclick="abrirEnvelope(this)">
+    <div class="texto-envelope">
+      Para Rebeca 💖<br>
+      <small>(clique para abrir)</small>
+    </div>
+
+    <div class="carta">
+      <h2>💌 Para Rebeca</h2>
+      <p>
+        Esse presente é simples,  
+        mas foi feito com todo meu carinho.  
+        Obrigado por ser quem você é minha princesa 💕
+      </p>
+      <div class="assinatura">
+        — Com amor,<br>
+        Andrey
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTÕES -->
+<button class="botao-voltar" id="botaoVoltar" onclick="voltarParaEnvelope()">← Voltar</button>
+<button class="botao-continuar" id="botaoContinuar" onclick="mostrarMensagemExtra()">Ver mais surpresas 💝</button>
+
+<!-- MENSAGEM EXTRA COM FOTO -->
+<div class="mensagens-extras" id="mensagensExtras">
+  <div class="mensagem-container">
+    <h2>Minha Princesa 💖</h2>
+    
+    <div class="foto-container">
+      <!-- SUA FOTO -->
+      <img src="https://cdn.discordapp.com/attachments/812882733486571570/1468652588219240530/image.png?ex=6984cccf&is=69837b4f&hm=46123eec57f1060986aa4e01b095807c47a69a3ca42542538a02dbdff1675c9b&" 
+           alt="Nossa foto especial" 
+           class="nossa-foto"
+           id="nossaFoto"
+           onload="fotoCarregada()"
+           onerror="fotoNaoCarregada()">
+      <div class="moldura-foto"></div>
+    </div>
+    
+    <div style="text-align: center; margin: 15px 0;">
+      <span class="legenda-foto">Minha pessoa favorita no mundo inteiro 💕</span>
+    </div>
+    
+    <p>Querida Rebeca</p>
+    
+<p>Essa foto me tras varias memórias boas ao seu lado, e nessa foi a nossa primeira vez juntos jogando.</p>
+
+    <p>Cada momento ao seu lado se transforma em uma lembranças boas. Desde os momentos mais simples até as mais incríveis, nos rindo em call jogando distrito e outros jogos são tudo especial pq é com você.</p>
+
+    <p> Cada risada, mensagens fofas, momentos de nos juntos. São memórias boas que guardo no meu coração.</p>
+
+    <p>Mal posso esperar para criar ainda mais memórias ao seu lado, morando juntos e construir uma vida otima com você .</p>
+    
+    <div class="assinatura">
+      — Para sempre seu,<br>
+      Andrey ❤️
+    </div>
+    
+    <div class="botoes-navegacao">
+      <button class="botao-acoes botao-fechar" onclick="fecharMensagens()">Voltar ao Envelope 💌</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Variáveis globais
+let amor = 0;
+
+// Inicialização
+document.addEventListener('DOMContentLoaded', function() {
+  criarCoracoes();
+  configurarEventos();
+  document.getElementById('medidor').style.display = 'flex';
+});
+
+// Configurar eventos
+function configurarEventos() {
+  const coracaoClick = document.getElementById('coracaoClick');
+  
+  coracaoClick.addEventListener('click', aumentar);
+  coracaoClick.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    aumentar();
+  });
+}
+
+// Criar corações caindo
+function criarCoracoes() {
+  const container = document.getElementById('coracoes');
+  const cores = ['#ff4d6d', '#ff8fa3', '#ffccd5', '#ff758f'];
+  
+  for (let i = 0; i < 25; i++) {
+    const coracao = document.createElement('div');
+    coracao.className = 'coração';
+    coracao.innerHTML = '💗';
+    coracao.style.left = Math.random() * 100 + '%';
+    coracao.style.animationDuration = (15 + Math.random() * 20) + 's';
+    coracao.style.fontSize = (20 + Math.random() * 25) + 'px';
+    coracao.style.color = cores[Math.floor(Math.random() * cores.length)];
+    coracao.style.opacity = 0.3 + Math.random() * 0.6;
+    coracao.style.animationDelay = Math.random() * 5 + 's';
+    container.appendChild(coracao);
+  }
+}
+
+// Medidor de amor
+function aumentar() {
+  if (amor < 100) {
+    amor += 10;
+    
+    document.getElementById("progresso").style.width = amor + "%";
+    document.getElementById("percentual").innerText = amor + "%";
+    
+    const coracao = document.getElementById('coracaoClick');
+    coracao.style.transform = 'scale(1.3)';
+    setTimeout(() => {
+      coracao.style.transform = 'scale(1)';
+    }, 200);
+    
+    tocarSomClique();
+  }
+
+  if (amor >= 100) {
+    document.getElementById("progresso").style.background = "linear-gradient(90deg, #4CAF50, #8BC34A)";
+    document.getElementById("percentual").innerHTML = "100% 💖";
+    
+    setTimeout(() => {
+      document.getElementById("medidor").style.display = "none";
+      document.getElementById("envelope").classList.add("liberado");
+      tocarSomSucesso();
+    }, 800);
+  }
+}
+
+// Abrir envelope
+function abrirEnvelope(el) {
+  if (!el.classList.contains('liberado')) return;
+  
+  el.classList.toggle('aberto');
+  const botaoContinuar = document.getElementById('botaoContinuar');
+  
+  if (el.classList.contains('aberto')) {
+    botaoContinuar.style.display = 'block';
+    tocarSomAbrir();
+  } else {
+    botaoContinuar.style.display = 'none';
+  }
+}
+
+// Mostrar mensagem extra com foto
+function mostrarMensagemExtra() {
+  document.getElementById('mensagensExtras').style.display = 'flex';
+  document.getElementById('botaoVoltar').style.display = 'block';
+  document.getElementById('botaoContinuar').style.display = 'none';
+}
+
+// Fechar mensagens e voltar
+function fecharMensagens() {
+  document.getElementById('mensagensExtras').style.display = 'none';
+  document.getElementById('botaoVoltar').style.display = 'none';
+  document.getElementById('envelope').classList.remove('aberto');
+  document.getElementById('botaoContinuar').style.display = 'block';
+}
+
+// Funções para a foto
+function fotoCarregada() {
+  console.log("✅ Foto carregada com sucesso! ❤️");
+}
+
+function fotoNaoCarregada() {
+  console.log("⚠️ A foto pode não ter carregado corretamente.");
+}
+
+// Efeitos sonoros (apenas sons curtos para feedback)
+function tocarSomClique() {
+  try {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    
+    osc.connect(gain);
+    gain.connect(audioContext.destination);
+    
+    osc.frequency.setValueAtTime(523.25, audioContext.currentTime);
+    gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+    
+    osc.start();
+    osc.stop(audioContext.currentTime + 0.1);
+  } catch (e) {
+    // Silencioso se não funcionar
+  }
+}
+
+function tocarSomSucesso() {
+  try {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    
+    osc.connect(gain);
+    gain.connect(audioContext.destination);
+    
+    osc.frequency.setValueAtTime(523.25, audioContext.currentTime);
+    osc.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1);
+    osc.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2);
+    
+    gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+    
+    osc.start();
+    osc.stop(audioContext.currentTime + 0.5);
+  } catch (e) {
+    // Silencioso se não funcionar
+  }
+}
+
+function tocarSomAbrir() {
+  try {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    
+    osc.connect(gain);
+    gain.connect(audioContext.destination);
+    
+    osc.frequency.setValueAtTime(261.63, audioContext.currentTime);
+    osc.frequency.setValueAtTime(392.00, audioContext.currentTime + 0.2);
+    osc.frequency.setValueAtTime(523.25, audioContext.currentTime + 0.4);
+    
+    gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.6);
+    
+    osc.start();
+    osc.stop(audioContext.currentTime + 0.6);
+  } catch (e) {
+    // Silencioso se não funcionar
+  }
+}
+
+// Função para recarregar a foto se necessário
+function recarregarFoto() {
+  const img = document.getElementById('nossaFoto');
+  const originalSrc = img.src;
+  img.src = '';
+  setTimeout(() => {
+    img.src = originalSrc + '&t=' + new Date().getTime();
+  }, 100);
+}
+</script>
+
+</body>
+</html>
